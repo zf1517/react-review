@@ -5,8 +5,6 @@ import { Route, Switch,Link } from 'react-router-dom';
 import TestContext from './pages/context/index';
 import TestRef from './pages/ref/index';
 
-
-
 function App() {
   return (
     <div className="App">
