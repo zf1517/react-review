@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
 // createRef 与useRef 与回调Ref区别？
+// 回调ref， dom创建和销毁时调用回调函数
+// createRef 与useRef dom创建和销毁时赋值
 
 // 函数组件内使用Ref，useRef hook 和 回调REF
 export default function TestRef(){
@@ -99,7 +101,7 @@ function LogProps(WrappedComponent){
         console.log('new props:', props);
         return <WrappedComponent {...props} ref={props.forwardRef}/>
     }
-    return React.forwardRef((props,ref)=> <LogProps {...props} forwardRef={ref} />);
+    return React.forwardRef((props,ref)=> <LogProps {...props} forwardRef={ref}/>);
 }
 
 // ref绑定在函数组件上将会返回undefined
