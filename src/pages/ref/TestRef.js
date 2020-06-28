@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle } from 'react';
 
 // createRef 与useRef 与回调Ref区别？
 // 回调ref， dom创建和销毁时调用回调函数
@@ -28,6 +28,7 @@ export default function TestRef(){
     },[])
 
     const hocRef = useRef();
+    // const customRef = useRef();
 
     // 函数组件内
     return (
@@ -37,7 +38,8 @@ export default function TestRef(){
             <FancyButton ref={buttonRef} onClick={()=>{console.log(buttonRef.current)}}>ref转发</FancyButton> 
             <FancyButton2 inputRef={InputRef}>回调Ref转发</FancyButton2> 
             <FancyButton3 nameRef={nameRef} onClick={() => {console.log(nameRef.current)}}>换名字Ref</FancyButton3> 
-            <HOCButton ref={hocRef} onClick={()=>{console.log(hocRef.current)}}>HOC REF</HOCButton>         
+            <HOCButton ref={hocRef} onClick={()=>{console.log(hocRef.current)}}>HOC REF</HOCButton>
+            <CustomRef ref={(ele)=>{console.log(ele)}}/>           
         </>
     )
 }
@@ -107,5 +109,18 @@ function LogProps(WrappedComponent){
 // ref绑定在函数组件上将会返回undefined
 const HOCButton = LogProps(FancyButton);
 
+
+// useImperativeHandle 自定义暴露给父组件的实例值
+function CustomRef(props,ref){
+    const innerRef = useRef();
+    useImperativeHandle(ref,()=>({
+        focus:()=>{
+            innerRef.current.focus();
+        },
+        customProps:{inner:1}
+    }))
+    return <input ref={innerRef}/>
+}
+CustomRef = React.forwardRef(CustomRef);
 
 
